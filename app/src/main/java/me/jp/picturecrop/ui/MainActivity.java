@@ -8,8 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -22,8 +23,9 @@ import me.jp.picturecrop.util.StorageUtil;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    public static String ADD_STICKER_VIEW = "add_water_mark";
     private ImageView mImageView;
+    private boolean mIsAddSticker;//是否添加贴图
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("PictureCrop");
         toolbar.setTitleTextColor(Color.WHITE);
         mImageView = (ImageView) findViewById(R.id.imageView);
+        CheckBox checkBox = (CheckBox) findViewById(R.id.cb_add_water_mark);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mIsAddSticker = isChecked;
+            }
+        });
     }
 
 
@@ -44,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         //设置裁剪完成的图片
-        Bitmap bitmap = BitmapUtil.getSmallBitmap(Constants.File.DIR_IMAGE + File.separator + "crop_picture.jpg", 1080, 1920);
+        Bitmap bitmap = BitmapUtil.getSmallBitmap(Constants.File.ABS_PIC_PATH, 1080, 1920);
         mImageView.setImageBitmap(bitmap);
     }
 
@@ -77,8 +86,10 @@ public class MainActivity extends AppCompatActivity {
                     if (originalUri != null) {// 选择图片完成跳转切图页面
                         //将uri转成完整的路径
                         String picPathStr = StorageUtil.getStringPathFromUri(this, originalUri);
-                        Log.i("tag", "picPathStr:" + picPathStr);
                         Intent intent = new Intent(this, PictureCropActivity.class);
+                        if (mIsAddSticker) {
+                            intent.putExtra(ADD_STICKER_VIEW, mIsAddSticker);
+                        }
                         intent.putExtra(PictureCropActivity.PIC_PATH, picPathStr);
                         startActivity(intent);
                     }
@@ -92,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent(this, PictureCropActivity.class);
+                if (mIsAddSticker) {
+                    intent.putExtra(ADD_STICKER_VIEW, mIsAddSticker);
+                }
                 intent.putExtra(PictureCropActivity.PIC_PATH,
                         PICTURE_ABSOLUTE_PATH);
                 startActivity(intent);

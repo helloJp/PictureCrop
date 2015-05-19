@@ -1,11 +1,13 @@
 package me.jp.picturecrop.ui;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +18,7 @@ import java.io.FileOutputStream;
 import me.jp.picturecrop.R;
 import me.jp.picturecrop.common.Constants;
 import me.jp.picturecrop.util.BitmapUtil;
-import me.jp.picturecrop.view.ClipImageLayout;
+import me.jp.picturecrop.view.clipimage.ClipImageLayout;
 
 
 /**
@@ -27,6 +29,8 @@ import me.jp.picturecrop.view.ClipImageLayout;
 public class PictureCropActivity extends AppCompatActivity {
     public static final String PIC_PATH = "picture_path";
 
+
+    private boolean mIsAddWaterMark;
     private Toolbar mToolbar;
     private String mPicPathStr;
     private Bitmap mBitmap;
@@ -38,6 +42,7 @@ public class PictureCropActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture_crop);
+        mIsAddWaterMark = getIntent().getBooleanExtra(MainActivity.ADD_STICKER_VIEW,false);
         setUpToolbar();
         initView();
     }
@@ -66,8 +71,13 @@ public class PictureCropActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         //保存图片
         if (item.getItemId() == R.id.action_save) {
-            saveCropPictureToSDCard();
+
+            boolean flag = BitmapUtil.saveBitmap(mClipImageLayout.clip(), Constants.File.ABS_PIC_PATH);
+            Log.i("TestData", "save bitmap flag:" + flag);
             finish();
+            if (mIsAddWaterMark) {
+                startActivity(new Intent(PictureCropActivity.this,StickerPicActivity.class));
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

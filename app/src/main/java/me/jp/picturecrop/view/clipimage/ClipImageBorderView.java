@@ -1,4 +1,4 @@
-package me.jp.picturecrop.view;
+package me.jp.picturecrop.view.clipimage;
 
 import android.content.Context;
 import android.graphics.Canvas;
