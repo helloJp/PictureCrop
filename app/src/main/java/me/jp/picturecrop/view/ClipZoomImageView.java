@@ -1,4 +1,4 @@
-package me.jp.picturecrop.view.clipimage;
+package me.jp.picturecrop.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;

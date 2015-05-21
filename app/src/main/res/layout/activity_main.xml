@@ -37,13 +37,6 @@
             android:onClick="onClick"
             android:text="take photo"
             />
-        <CheckBox
-            android:id="@+id/cb_add_water_mark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="add sticker view"
-            android:textSize="18sp"
-            />
 
         <ImageView
             android:id="@+id/imageView"
