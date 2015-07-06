@@ -1,7 +1,6 @@
 package me.jp.picturecrop.ui;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -84,7 +83,7 @@ public class PictureCropActivity extends AppCompatActivity {
 
         mClipImageLayout = (ClipImageLayout) findViewById(R.id.id_clipImageLayout);
         //图片放入布局中去
-        mClipImageLayout.setClipImage(new BitmapDrawable(mBitmap));
+        mClipImageLayout.setClipImage(mBitmap);
     }
 
 
@@ -103,6 +102,7 @@ public class PictureCropActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
 
 }
